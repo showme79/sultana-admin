@@ -1,0 +1,65 @@
+export default (theme) => ({
+  root: {},
+  inputLabel: {},
+  dropzone: {
+    position: 'relative',
+    fontFamily: 'Roboto',
+    display: 'inline-flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    border: `solid 1px ${theme.palette.divider}`,
+    alignSelf: 'baseline',
+    ...theme.overrides.MuiInput.formControl['label + &'],
+
+    '&.drag-active': {
+      border: `dashed 1px ${theme.palette.divider}`,
+    },
+    '&.disabled': {},
+  },
+  image: {
+    margin: 2,
+    flex: '0 auto',
+    maxWidth: 500,
+    maxHeight: 300,
+  },
+  imageTitle: {
+    position: 'absolute',
+    left: 2,
+    right: 2,
+    bottom: 2,
+    background: 'rgba(0,0,0,0.5)',
+    color: theme.palette.grey[50],
+    padding: '4px 8px',
+    flexWrap: 'nowrap',
+    fontSize: '0.8rem',
+    whiteSpace: 'nowrap',
+
+    display: 'flex',
+    '& .title': {
+      flex: 'auto',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+    },
+    '& .resolution': {
+      flex: '0 auto',
+      paddingLeft: 4,
+    },
+  },
+  icon: {
+    flex: 'auto',
+    textAlign: 'center',
+    width: 500,
+    height: 300,
+  },
+  placeholder: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    flex: 'auto',
+    textAlign: 'center',
+    width: 500,
+    height: 300,
+  },
+  placeholderDisabled: {},
+  placeholderDragActive: {},
+});

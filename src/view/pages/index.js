@@ -1,0 +1,12 @@
+export { default as Banners } from './Banners/Banners';
+export { default as Categories } from './Categories/Categories';
+export { default as Dashboard } from './Dashboard/Dashboard';
+export { default as Galleries } from './Galleries/Galleries';
+export { default as Media } from './Media/Media';
+export { default as Polls } from './Polls/Polls';
+export { default as Posts } from './Posts/Posts';
+export { default as Preferences } from './Preferences/Preferences';
+export { default as Subscriptions } from './Subscriptions/Subscriptions';
+export { default as Surveys } from './Surveys/Surveys';
+export { default as Tags } from './Tags/Tags';
+export { default as Users } from './Users/Users';
