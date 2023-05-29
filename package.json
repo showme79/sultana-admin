@@ -81,6 +81,7 @@
     "prettier": "^2.8.7",
     "react-app-rewired": "^2.2.1",
     "react-scripts": "^5.0.1",
+    "serve": "^14.2.0",
     "typescript": "~5.0.4"
   },
   "scripts": {
@@ -90,7 +91,7 @@
     "build": "cross-env REACT_APP_BUILD_DATE=$(date +%s) react-scripts build",
     "test": "react-scripts test",
     "test-ci": "cross-env CI=true react-scripts test --env=jsdom --coverage --testResultsProcessor jest-sonar-reporter --coverageDirectory target/coverage",
-    "eject": "react-scripts eject",
+    "serve": "npx serve -p 3000 ./build",
     "lint": "npm run lint:js",
     "lint:js": "eslint src --fix"
   }
