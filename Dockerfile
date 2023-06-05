@@ -6,7 +6,7 @@ WORKDIR /opt/sultana-admin
 
 ARG GH_TOKEN
 COPY lib ./lib
-COPY package*.json .
+COPY package*.json ./
 COPY .npmrc .
 RUN npm ci
 
