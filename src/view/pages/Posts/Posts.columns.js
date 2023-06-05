@@ -61,7 +61,7 @@ const columns = [
   },
   {
     id: 'segment',
-    label: 'Fül (szegmens)',
+    label: 'Szegmens',
     padding: 'none',
     Cell: SegmentsColumn,
     sortable: false,

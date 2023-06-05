@@ -8,7 +8,6 @@ import {
   PriorityMode,
   Repeat,
   Role,
-  Segment,
   SubscriptionStatus,
   TagStatus,
   UserStatus,
@@ -79,14 +78,6 @@ export const RoleText = {
   [Role.SUPER]: 'Főszerkesztő',
   [Role.ADMIN]: 'Adminisztrátor',
   [Role.TECH]: 'Technikai felhasználó',
-};
-
-export const SegmentText = {
-  [Segment.$GENERIC]: 'Általános',
-  [Segment.ALL]: 'Összes fül',
-  [Segment.FAMILY]: 'Család',
-  [Segment.PROJECT]: 'Kampány',
-  [Segment.SUBSIDY]: 'Támogatások',
 };
 
 export const SubscriptionStatusText = {

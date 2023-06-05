@@ -1,5 +1,4 @@
 import {
-  filter,
   isArrayLike,
   isFunction,
   isNil,
@@ -14,8 +13,7 @@ import {
 } from 'lodash-es';
 import PropTypes from 'prop-types';
 
-import { ImageWidths, MediaType, RealSegment, Segment, SortDirection } from 'consts';
-import { SegmentText } from 'lang/hu';
+import { ImageWidths, MediaType, SortDirection } from 'consts';
 import { baseUrl } from 'services';
 
 export { decodeHtml, fromJson, processSurvey, replaceVars, sleep, toBoolean } from '@showme79/sultana-common';
@@ -125,14 +123,6 @@ export const getMediaUrl = (media, options) => {
 
 export const getPreviewUrl = (post) => `/cikk/${encodeURIComponent(post.slug)}?preview=true`;
 
-export const getSegmentGroupItems = memoize(() =>
-  filter(RealSegment, (segment) => segment[0] !== '$').map((segment) => ({
-    key: segment,
-    name: `segments[${segment}]`,
-    label: SegmentText[segment],
-  })),
-);
-
 export const mapItemsToCheckbox = (items, defaultItems, allItems) => {
   const checkedItems = isString(items) ? items.split(',').filter((item) => allItems[item]) : defaultItems;
   return reduce(
@@ -157,11 +147,4 @@ export const getSelectItems = (items, texts, { all = true, special = false } = {
     ({ id }) => (all || id !== items.ALL) && (special || id[0] !== '$'),
   );
 
-export const getSegmentFilterItems = (opts) => getSelectItems(Segment, SegmentText, opts);
-/*
-export const getSegmentFilterItems = ({ all, special }) => reduce(
-  Segment,
-  (acc, segment) => (!special && segment[0] === '$' ? acc : [...acc, { id: segment, name: SegmentText[segment] }]),
-  all ? [{ id: '', name: 'Összes fül' }] : [],
-);
-*/
+export const getSegmentFilterItems = ({ Segment, SegmentText, ...opts }) => getSelectItems(Segment, SegmentText, opts);

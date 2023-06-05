@@ -11,9 +11,8 @@ COPY .npmrc .
 RUN npm ci
 
 COPY . .
-RUN npm run build
 
-ENV NODE_ENV=development
-ENV PORT=3000
+ENV PUBLIC_URL=/admin
+RUN npm run build
 
 CMD ["npm", "run", "serve"]

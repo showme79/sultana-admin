@@ -2,9 +2,10 @@
 import { kebabCase, map } from 'lodash-es';
 import { DateTime } from 'luxon';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import { useSubscriptionTypes } from 'hooks';
-import { SegmentText } from 'lang/hu';
+import { AppSelectors } from 'state';
 import { getDisplayName, getMediaUrl } from 'utils';
 
 import ExTableCell from '../components/ExTable/ExTableCell';
@@ -106,15 +107,18 @@ export const UserColumn = ({ value: username, className, item: user }) => (
   </ExTableCell>
 );
 
-export const SegmentsColumn = ({ value: segments = '', ...props }) => (
-  <ExTableCell {...props}>
-    {map(segments.split(','), (segment) => (
-      <div key={segment} className={`segment-${kebabCase(segment)}`}>
-        {SegmentText[segment]}
-      </div>
-    ))}
-  </ExTableCell>
-);
+export const SegmentsColumn = ({ value: segments = '', ...props }) => {
+  const { SegmentText } = useSelector(AppSelectors.getSegmentsInfo);
+  return (
+    <ExTableCell {...props}>
+      {map(segments.split(','), (segment) => (
+        <div key={segment} className={`segment-${kebabCase(segment)}`}>
+          {SegmentText[segment]}
+        </div>
+      ))}
+    </ExTableCell>
+  );
+};
 
 export const PostTitleColumn = ({ value: title, ...props }) => (
   <ExTableCell {...props}>

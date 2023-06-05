@@ -26,12 +26,11 @@ import {
   PostContentMode,
   PostStatus,
   PriorityMode,
-  Segment,
   TagStatus,
   ViewMode,
   fieldProps as defaultFieldProps,
 } from 'consts';
-import { PostRightsPropType } from 'consts/prop-types';
+import { PostRightsPropType, SegmentsInfoPropType } from 'consts/prop-types';
 import { AlarmOnIcon, DoneAllIcon, DoneIcon, RemoveRedEyeIcon, SaveAltIcon, SaveIcon } from 'icons';
 import { PostContentModeText, PostStatusText, PriorityModeText, ViewModeText } from 'lang/hu';
 import services from 'services';
@@ -53,8 +52,6 @@ import styles from './PostEditor.styles';
 
 const viewModes = [ViewMode.MOBILE, /* ViewMode.TABLET, */ ViewMode.DESKTOP];
 const MAX_ATTR_DESCRIPTION_LENGTH = 180;
-
-const segmentItems = getSegmentFilterItems({ all: false, special: true });
 
 const priorityModeItems = map(PriorityMode, (priorityMode) => ({
   id: priorityMode,
@@ -154,8 +151,10 @@ const calcInitialValues = (
     ...post
   },
   postsMaxPriority,
+  segmentsInfo,
 ) => {
   const imageStyles = fromJson(post.imageStyles);
+  const { Segment, defaultSegment } = segmentsInfo;
   const {
     script = '',
     css = '',
@@ -183,7 +182,7 @@ const calcInitialValues = (
     approveOn: DateTime.fromISO(approveOn || new DateTime(Date.now())),
     approvedAt: DateTime.fromISO(approvedAt || new DateTime(Date.now())),
     source: source || '',
-    segment: Segment[segment] || Segment.FAMILY,
+    segment: Segment[segment] || defaultSegment,
     redirectUrl: redirectUrl || '',
     skipSearch: !!skipSearch || false,
     slugEditable: !!title && post.slug !== kebabCase(title),
@@ -284,6 +283,7 @@ class PostEditor extends Component {
     const {
       post,
       post: { content },
+      segmentsInfo,
     } = props;
 
     this.state = {
@@ -296,7 +296,7 @@ class PostEditor extends Component {
       content: content || '',
     };
 
-    this.initialValues = calcInitialValues(post);
+    this.initialValues = calcInitialValues(post, this.getPostMaxPriority(), segmentsInfo);
   }
 
   componentDidMount() {
@@ -347,7 +347,7 @@ class PostEditor extends Component {
   };
 
   onFormSubmit = (values, { setSubmitting, setErrors, resetForm }) => {
-    const { submitAction, onClose, post } = this.props;
+    const { submitAction, onClose, post, segmentsInfo } = this.props;
     const { action, event } = this.submitState;
     const { id: actionId } = action;
     this.submitState = null;
@@ -405,7 +405,7 @@ class PostEditor extends Component {
       },
     )
       .then((/* { data: { result: savedPost } = undefined } = {} */) => {
-        this.initialValues = this.calcInitialValues(post, this.getPostMaxPriority());
+        this.initialValues = this.calcInitialValues(post, this.getPostMaxPriority(), segmentsInfo);
         resetForm({ values: this.initialValues });
         this.setState({ originalContent: content });
 
@@ -610,7 +610,11 @@ class PostEditor extends Component {
     const {
       values: { status, contentMode, slugEditable, title, redirectUrl },
     } = form;
-    const { classes, rights } = this.props;
+    const {
+      classes,
+      rights,
+      segmentsInfo: { Segment, SegmentText },
+    } = this.props;
     const { showImagePicker, content, categories, polls, viewMode } = this.state;
 
     const fieldProps = {
@@ -801,8 +805,8 @@ class PostEditor extends Component {
               <Field
                 component={SimpleSelect}
                 name="segment"
-                label="Fül (szegmens)"
-                items={segmentItems}
+                label="Szegmens"
+                items={getSegmentFilterItems({ Segment, SegmentText, all: false, special: true })}
                 {...fieldProps}
               />
             </Grid>
@@ -1081,6 +1085,7 @@ PostEditor.propTypes = {
   submitAction: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   rights: PostRightsPropType.isRequired,
+  segmentsInfo: SegmentsInfoPropType.isRequired,
   preferences: PropTypes.shape({
     'api.posts.max.priority': PropTypes.number,
     'posts.content.css': PropTypes.string,
@@ -1093,6 +1098,7 @@ PostEditor.defaultProps = {
 
 const mapStateToProps = (state) => ({
   preferences: AppSelectors.getPreferences(state),
+  segmentsInfo: AppSelectors.getSegmentsInfo(),
 });
 
 const mapDispatchToProps = (/* dispatch */) => ({});

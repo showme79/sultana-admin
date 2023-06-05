@@ -35,7 +35,7 @@ const actions = createActions(
         (dispatch) => {
           const filterParams = filter && {
             'priority~gt': filter.priority ? 0 : undefined,
-            segment: filter.segment !== Segment.ALL ? filter.segment : undefined,
+            segment: filter.segment !== Segment.$ALL ? filter.segment : undefined,
             status: filter.status !== 'ALL' ? filter.status : undefined,
           };
           return services

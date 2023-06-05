@@ -15,7 +15,7 @@ const columns = [
   },
   {
     id: 'segments',
-    label: 'Fülek (szegmens)',
+    label: 'Szegmensek',
     padding: 'none',
     Cell: SegmentsColumn,
     sortable: false,

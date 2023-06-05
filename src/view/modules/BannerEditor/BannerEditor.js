@@ -4,18 +4,19 @@ import { TextField } from 'formik-material-ui';
 import { find, isArray, isNaN } from 'lodash-es';
 import PropTypes from 'prop-types';
 import React, { useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
-import { Action, BannerStatus, RealSegment, Repeat, fieldProps as defaultFieldProps } from 'consts';
+import { Action, BannerStatus, Repeat, fieldProps as defaultFieldProps } from 'consts';
 import { BannerPositionsPropType, BannerPropType, BannerRightsPropType } from 'consts/prop-types';
 import { SaveIcon } from 'icons';
 import { BannerStatusText, RepeatText } from 'lang/hu';
+import { AppSelectors } from 'state';
 import { getSelectItems, mapApiErrorsToFormErrors, mapCheckboxToItems, mapItemsToCheckbox } from 'utils';
-import { /* CheckboxGroupField, */ DateTimePicker, SimpleSelect, SliderField } from 'view/base';
+import { CheckboxGroupField, DateTimePicker, SimpleSelect, SliderField } from 'view/base';
 import { ImageSelectField, ModalEditor } from 'view/components';
 
 import styles from './BannerEditor.styles';
 
-// const segmentGroupItems = getSegmentGroupItems();
 const statusItems = getSelectItems(BannerStatus, BannerStatusText, { all: false }); // (status) => ({ id: status, name: BannerStatusText[status] }));
 const repeatItems = [
   Repeat.NEVER,
@@ -46,8 +47,8 @@ const validate = ({ repeat, repeatCustom } /* , formikProps */) => {
 };
 
 const calcInitialValues = (
-  { title, status, segments, priority, positionId, startDate, endDate, repeat, ...bannerProps },
-  positions,
+  { title, status, segments: bannerSegments, priority, positionId, startDate, endDate, repeat, ...bannerProps },
+  { positions, segments },
 ) => {
   const date = new Date();
   const startDateDefault = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0);
@@ -56,7 +57,7 @@ const calcInitialValues = (
     ...bannerProps,
     title: title || '',
     status: status || BannerStatus.INACTIVE,
-    segments: mapItemsToCheckbox(segments, RealSegment, RealSegment),
+    segments: mapItemsToCheckbox(bannerSegments, segments, segments),
     priority: priority || Math.ceil((MAX_PRIORITY + MIN_PRIORITY) / 2),
     positionId: positionId || positions[0]?.id || '',
     repeat: (Repeat[repeat] && repeat) || (getRepeatCustomError(repeat) && repeatItems[0].id) || Repeat.CUSTOM,
@@ -71,6 +72,7 @@ const renderEditor = ({
   classes,
   rights,
   positions,
+  segmentGroupItems,
   form: {
     isSubmitting,
     values: { repeat },
@@ -162,11 +164,9 @@ const renderEditor = ({
           <Grid item xs={12}>
             <Field component={SimpleSelect} name="positionId" label="Pozíció" items={positions} {...fieldProps} />
           </Grid>
-          {/*
           <Grid item xs={12}>
-            <CheckboxGroupField label="Fülek (szegmensek)" items={segmentGroupItems} disabled={fieldProps.disabled} />
+            <CheckboxGroupField label="Szegmensek" items={segmentGroupItems} disabled={fieldProps.disabled} />
           </Grid>
-          */}
           <Grid item xs={12}>
             <Field
               component={SliderField}
@@ -187,14 +187,6 @@ const renderEditor = ({
 
 const BannerEditor = ({ banner, positions, rights, submitAction, onClose }) => {
   const classes = useStyles();
-
-  const initialValues = useMemo(() => {
-    if (!banner || !positions) {
-      return null;
-    }
-
-    return calcInitialValues(banner, positions);
-  }, [banner, positions]);
 
   const onDialogClose = useCallback((event) => onClose && onClose(event), [onClose]);
 
@@ -230,6 +222,8 @@ const BannerEditor = ({ banner, positions, rights, submitAction, onClose }) => {
   const hasError = useCallback((errors) => !!find(errors, (error) => (isArray(error) ? error.length : true)), []);
 
   const { id, title } = banner || {};
+  const { segments, segmentGroupItems } = useSelector(AppSelectors.getSegmentsInfo);
+
   const renderForm = useCallback(
     (form) => {
       const { isSubmitting, errors, handleSubmit, dirty } = form;
@@ -257,13 +251,22 @@ const BannerEditor = ({ banner, positions, rights, submitAction, onClose }) => {
             classes,
             rights,
             positions,
+            segmentGroupItems,
             form,
           })}
         </ModalEditor>
       );
     },
-    [rights, hasError, id, title, onDialogClose, onActionClick, classes, positions],
+    [rights, hasError, id, title, onDialogClose, onActionClick, classes, positions, segmentGroupItems],
   );
+
+  const initialValues = useMemo(() => {
+    if (!banner || !positions) {
+      return null;
+    }
+
+    return calcInitialValues(banner, { positions, segments });
+  }, [banner, positions, segments]);
 
   return (
     initialValues && (

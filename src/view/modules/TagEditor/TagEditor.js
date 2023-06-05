@@ -13,13 +13,15 @@ import { Switch, TextField } from 'formik-material-ui';
 import { find, isArray, kebabCase, map, memoize } from 'lodash-es';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { useSelector } from 'react-redux';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Action, RealSegment, TagStatus, fieldProps as defaultFieldProps } from 'consts';
 import { TagRightsPropType } from 'consts/prop-types';
 import { SaveIcon } from 'icons';
 import { TagStatusText } from 'lang/hu';
-import { getSegmentGroupItems, mapApiErrorsToFormErrors, mapCheckboxToItems, mapItemsToCheckbox } from 'utils';
+import { AppSelectors } from 'state';
+import { mapApiErrorsToFormErrors, mapCheckboxToItems, mapItemsToCheckbox } from 'utils';
 import { CheckboxGroupField } from 'view/base';
 import { ModalEditor } from 'view/components';
 
@@ -117,6 +119,8 @@ class TagEditor extends Component {
       required: true,
     };
 
+    const { segmentGroupItems } = useSelector(AppSelectors.getSegmentsInfo);
+
     return (
       <Grid container spacing={2}>
         <Grid item xs={8}>
@@ -149,7 +153,7 @@ class TagEditor extends Component {
               </Field>
             </Grid>
             <Grid item xs={12}>
-              <CheckboxGroupField label="Fülek (szegmensek)" items={getSegmentGroupItems()} />
+              <CheckboxGroupField label="Szegmensek" items={segmentGroupItems} />
             </Grid>
           </Grid>
         </Grid>

@@ -71,7 +71,7 @@ const filterConfig = {
   mapperFn: ({ status, name /* , segment */ }) => ({
     status: status !== BannerStatus.ALL ? status : undefined,
     'name~like': name ? `%${name || ''}%` : undefined,
-    // 'segments~like': segment !== Segment.ALL ? `%${segment}%` : undefined,
+    // 'segments~like': segment !== Segment.$ALL ? `%${segment}%` : undefined,
   }),
 };
 

@@ -76,7 +76,7 @@ Filter.defaultProps = {
   className: '',
   filter: {
     status: BannerStatus.ALL,
-    // segment: Segment.ALL,
+    // segment: Segment.$ALL,
     name: '',
   },
 };

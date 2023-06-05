@@ -10,10 +10,10 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { Action, CategoryStatus, RealSegment, fieldProps as defaultFieldProps } from 'consts';
 import { CategoryRightsPropType } from 'consts/prop-types';
 import { SaveIcon } from 'icons';
-import { CategoryStatusText, SegmentText } from 'lang/hu';
+import { CategoryStatusText } from 'lang/hu';
 import services from 'services';
 import { AppSelectors, CategoriesSelectors } from 'state';
-import { getSegmentGroupItems, mapApiErrorsToFormErrors, mapCheckboxToItems, mapItemsToCheckbox } from 'utils';
+import { mapApiErrorsToFormErrors, mapCheckboxToItems, mapItemsToCheckbox } from 'utils';
 import { CheckboxField, CheckboxGroupField, ColoPickerField, SimpleSelect } from 'view/base';
 import { ImageSelectField, ModalEditor } from 'view/components';
 
@@ -29,7 +29,7 @@ const onActionClick = (action /* , context, event */) => {
 const hasError = (errors) => !!find(errors, (error) => (isArray(error) ? error.length : true));
 const getAvailableStatuses = () => map(CategoryStatus, (status) => ({ id: status, name: CategoryStatusText[status] }));
 
-const getSegmentText = (category) => {
+const getSegmentText = (category, SegmentText) => {
   if (!category || !category.segments) {
     return undefined;
   }
@@ -135,7 +135,11 @@ class CategoryEditor extends Component {
       isSubmitting,
       values: { slugEditable, name, parentId },
     } = form;
-    const { classes, rights } = this.props;
+    const {
+      classes,
+      rights,
+      segmentsInfo: { segmentGroupItems, SegmentText },
+    } = this.props;
     const { categories } = this.state;
 
     const fieldProps = {
@@ -201,7 +205,7 @@ class CategoryEditor extends Component {
                   label="Szülő kategória"
                   items={categories}
                   {...fieldProps}
-                  helperText={getSegmentText(parentCategory)}
+                  helperText={getSegmentText(parentCategory, SegmentText)}
                 />
               </Grid>
             )}
@@ -241,11 +245,7 @@ class CategoryEditor extends Component {
               <Field component={ColoPickerField} name="color" label="Szín" {...fieldProps} />
             </Grid>
             <Grid item xs={12}>
-              <CheckboxGroupField
-                label="Fülek (szegmensek)"
-                items={getSegmentGroupItems()}
-                disabled={fieldProps.disabled}
-              />
+              <CheckboxGroupField label="Szegmensek" items={segmentGroupItems} disabled={fieldProps.disabled} />
             </Grid>
             <Grid item xs={12}>
               <Field
@@ -360,6 +360,7 @@ CategoryEditor.defaultProps = {
 const mapStateToProps = (state) => ({
   category: CategoriesSelectors.getCategory(state),
   user: AppSelectors.getUser(state),
+  segmentsInfo: AppSelectors.getSegmentsInfo(state),
   hasRole: (roles) => AppSelectors.hasRole(roles)(state),
 });
 

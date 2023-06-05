@@ -218,9 +218,28 @@ export const UserRightsPropType = PropTypes.shape({
   DELETE_SELECTED: RightPropType.isRequired,
 });
 
-export const UserPropType = PropTypes.PropTypes.shape({
+export const UserPropType = PropTypes.shape({
   ...UserShape,
   profile: UserProfilePropType,
   createdByUser: PropTypes.shape(UserShape),
   updatedByUser: PropTypes.shape(UserShape),
+});
+
+export const SegmentsInfoPropType = PropTypes.shape({
+  segments: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      url: PropTypes.string,
+      hidden: PropTypes.bool,
+    }),
+  ),
+  Segment: PropTypes.shape({}),
+  SegmentText: PropTypes.shape({}),
+  segmentGroupItems: PropTypes.arrayOf({
+    key: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+  }),
+  defaultSegment: PropTypes.string,
 });

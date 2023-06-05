@@ -43,7 +43,7 @@ const createColumns = ({ bannerPositionsAsync } = {}) => {
     },
     {
       id: 'segments',
-      label: 'Fül (szegmens)',
+      label: 'Szegmens',
       padding: 'none',
       Cell: SegmentsColumn,
       sortable: false,

@@ -18,7 +18,7 @@ const initState = {
   filter: {
     name: '',
     status: 'ALL',
-    segment: Segment.ALL,
+    segment: Segment.$ALL,
   },
 
   /**
