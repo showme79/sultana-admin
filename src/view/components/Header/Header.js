@@ -15,7 +15,6 @@ import React, { PureComponent } from 'react';
 
 import { UserPropType } from 'consts/prop-types';
 import { AccountCircleIcon, MenuIcon } from 'icons';
-import Logo from 'resources/app-logo.png';
 import { getDisplayName } from 'utils';
 
 import styles from './Header.styles';
@@ -88,7 +87,7 @@ class Header extends PureComponent {
               </IconButton>
             )}
             <div className={classes.title}>
-              {logo && <CardMedia className={classes.logo} title={title} image={Logo} />}
+              {logo && <CardMedia className={classes.logo} title={title} image={logo} />}
               <Typography variant="subtitle1" color="inherit" noWrap>
                 {title}
               </Typography>

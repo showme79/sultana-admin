@@ -15,6 +15,7 @@ export default (theme) => ({
   },
   logo: {
     flex: '0 0 60px',
+    margin: [[0, theme.spacing(2)]],
     backgroundSize: 'contain',
     height: 40,
   },

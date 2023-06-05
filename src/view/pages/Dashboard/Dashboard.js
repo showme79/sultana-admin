@@ -25,7 +25,7 @@ class Dashboard extends Component {
 
     return (
       <Card className={classes.root}>
-        <CardMedia className={classes.logo} image="resources/images/csbo-logo.jpg" />
+        <CardMedia className={classes.logo} image="resources/images/big-logo.png" />
       </Card>
     );
   }

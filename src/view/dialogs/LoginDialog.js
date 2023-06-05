@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { allowGuestRegistration, emailAuth } from 'consts';
-import Logo from 'resources/app-logo.png';
 import services from 'services';
 import { AppActions } from 'state';
 import { ChangePasswordForm, LoginForm, RegistrationForm, ResetPasswordForm } from 'view/components';
@@ -64,7 +63,7 @@ const LoginDialog = ({ classes, token, ...props }) => {
 
   return (
     <Dialog className={cls.root} fullWidth open {...props}>
-      <CardMedia className={cls.logo} image={Logo} title="Bejelentkezés" />
+      <CardMedia className={cls.logo} image="resources/images/logo.png" title="Bejelentkezés" />
       {form === Form.LOGIN && (
         <LoginForm
           email={emailAuth}

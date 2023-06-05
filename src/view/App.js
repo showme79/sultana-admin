@@ -10,7 +10,6 @@ import { Route, Switch, matchPath, withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Route as RouteConfig } from 'consts';
-import AppLogo from 'resources/app-logo.png';
 import { AppActions, AppSelectors } from 'state';
 import logger from 'utils/logger';
 import { Header, Navigation, ProgressDialog, Toasts } from 'view/components';
@@ -132,7 +131,7 @@ class App extends Component {
             <div className={classes.root}>
               <Toasts />
               <Header
-                logo={AppLogo}
+                logo="resources/images/logo.png"
                 title={title}
                 user={user}
                 onNavClick={this.onNavClick}
