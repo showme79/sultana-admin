@@ -1,4 +1,4 @@
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select as MuiSelect } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import clsx from 'clsx';
 import { Field, Form, Formik } from 'formik';
 import { TextField } from 'formik-material-ui';
@@ -11,6 +11,7 @@ import { TagStatus, fieldProps } from 'consts';
 import { TagStatusText } from 'lang/hu';
 import { AppSelectors } from 'state';
 import { getSegmentFilterItems } from 'utils';
+import { SimpleSelect } from 'view/base';
 
 const onSegmentClick =
   ({ submitForm, setFieldValue }, segment) =>
@@ -19,22 +20,10 @@ const onSegmentClick =
     submitForm();
   };
 
-const renderStatus = ({ field }) => {
-  const id = `id-${field.name}`;
-  return (
-    <FormControl fullWidth>
-      <InputLabel htmlFor={id}>Állapot</InputLabel>
-      <MuiSelect {...field} inputProps={{ id, name: field.name }} fullWidth>
-        <MenuItem value="ALL">Összes</MenuItem>
-        {map(TagStatus, (status) => (
-          <MenuItem key={status} value={status}>
-            {TagStatusText[status]}
-          </MenuItem>
-        ))}
-      </MuiSelect>
-    </FormControl>
-  );
-};
+const statusItems = [
+  { id: 'ALL', name: 'Összes' },
+  ...map(TagStatus, (status) => ({ id: status, name: TagStatusText[status] })),
+];
 
 const Filter = ({ className, service, filter: filterProps }) => {
   const { Segment, SegmentText } = useSelector(AppSelectors.getSegmentsInfo);
@@ -48,6 +37,8 @@ const Filter = ({ className, service, filter: filterProps }) => {
     () =>
       filterProps || {
         segment: segmentItems[0].id,
+        status: statusItems[0].id,
+        name: '',
       },
     [filterProps, segmentItems],
   );
@@ -82,7 +73,14 @@ const Filter = ({ className, service, filter: filterProps }) => {
               ))}
             </Grid>
             <Grid item xs={2}>
-              <Field name="status">{renderStatus}</Field>
+              <Field
+                component={SimpleSelect}
+                name="status"
+                label="Állapot"
+                items={statusItems}
+                {...fieldProps}
+                disabled={isSubmitting}
+              />
             </Grid>
             <Grid item xs={3}>
               <Field component={TextField} name="name" {...fieldProps} label="Szűrés névre" />

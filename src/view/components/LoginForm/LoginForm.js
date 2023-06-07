@@ -30,9 +30,9 @@ const LoginForm = ({ classes, email, username, password, onRegistrationClick, on
     onSubmit,
     resolver,
     context: { email },
-    defaultValue: {
-      username,
-      password,
+    defaultValues: {
+      username: username || '',
+      password: password || '',
     },
   });
   const cls = useStyles({ classes });

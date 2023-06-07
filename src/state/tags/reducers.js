@@ -1,4 +1,4 @@
-import { Segment, SortDirection, TagStatus } from 'consts';
+import { SortDirection, TagStatus } from 'consts';
 import { updateItemById } from 'utils';
 import { handleActions } from 'utils/store';
 
@@ -15,11 +15,7 @@ const initState = {
    * In case of successful tag retrieval this property holds the filter parameter of the last successful query.
    * @type {Object}
    */
-  filter: {
-    name: '',
-    status: 'ALL',
-    segment: Segment.$ALL,
-  },
+  filter: undefined,
 
   /**
    * In case of successful tag retrieval this property holds the sort parameter of the last successful query.

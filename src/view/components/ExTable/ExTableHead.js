@@ -32,7 +32,7 @@ class ExTableHead extends Component {
             </TableCell>
           )}
           {columns.map((column) => {
-            const { id, label, sortable = true, align = 'left', padding = 'default' } = column;
+            const { id, label, sortable = true, align = 'left', padding = 'normal' } = column;
             const sortKeyColumn = isString(sortable) ? sortable : id;
             const tooltipPlacement = ExTableHead.tooltipPlacements[align];
             return (

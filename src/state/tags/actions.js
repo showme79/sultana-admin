@@ -24,9 +24,9 @@ const actions = createActions(
     loadTags: [
       ({ filter, sort, range }) =>
         (dispatch) => {
-          const filterParams = {
+          const filterParams = filter && {
             'name~like': `%${filter.name || ''}%`,
-            'segments~like': filter.segment !== Segment.$ALL ? `%${filter.segment}%` : undefined,
+            'segments~like': filter.segment !== Segment.ALL ? `%${filter.segment}%` : undefined,
             status: filter.status !== 'ALL' ? filter.status : undefined,
           };
 

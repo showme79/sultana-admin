@@ -4,17 +4,17 @@ const columns = [
   {
     id: 'title',
     label: 'Bejegyzés címe',
-    padding: 'default',
+    padding: 'normal',
   },
   {
     id: 'surveyAnswerCount',
     label: 'Kitöltések száma',
-    padding: 'default',
+    padding: 'normal',
   },
   {
     id: 'created',
     label: 'Létrehozva',
-    padding: 'default',
+    padding: 'normal',
     Cell: CreatedColumn,
     sortable: 'createdAt',
   },

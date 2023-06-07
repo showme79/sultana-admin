@@ -61,7 +61,7 @@ export default createTheme({
         marginTop: 4,
       },
     },
-    MuiGridListTileBar: {
+    MuiImageListItemBar: {
       root: {
         whiteSpace: 'nowrap',
       },

@@ -50,7 +50,7 @@ const columns = [
   {
     id: 'voteCount',
     label: 'Szavazat',
-    padding: 'default',
+    padding: 'normal',
     Cell: SimpleColumn,
     align: 'right',
   },

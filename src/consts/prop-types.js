@@ -225,21 +225,35 @@ export const UserPropType = PropTypes.shape({
   updatedByUser: PropTypes.shape(UserShape),
 });
 
+export const SegmentPropTypes = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  url: PropTypes.string,
+  hidden: PropTypes.bool,
+});
+
 export const SegmentsInfoPropType = PropTypes.shape({
-  segments: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      url: PropTypes.string,
-      hidden: PropTypes.bool,
-    }),
-  ),
+  segments: PropTypes.arrayOf(SegmentPropTypes),
   Segment: PropTypes.shape({}),
   SegmentText: PropTypes.shape({}),
-  segmentGroupItems: PropTypes.arrayOf({
-    key: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-  }),
-  defaultSegment: PropTypes.string,
+  segmentGroupItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    }),
+  ),
+  defaultSegment: SegmentPropTypes,
+});
+
+export const PostStatsPropTypes = PropTypes.shape({
+  new: PropTypes.number,
+  modified: PropTypes.number,
+  scheduled: PropTypes.number,
+  approved: PropTypes.number,
+  sync: PropTypes.number,
+});
+
+export const StatsPropTypes = PropTypes.shape({
+  posts: PostStatsPropTypes,
 });

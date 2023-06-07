@@ -36,6 +36,7 @@ import { PostContentModeText, PostStatusText, PriorityModeText, ViewModeText } f
 import services from 'services';
 import { AppSelectors } from 'state';
 import { fromJson, getMediaUrl, getPreviewUrl, getSegmentFilterItems, mapApiErrorsToFormErrors } from 'utils';
+import logger from 'utils/logger';
 import {
   DateTimePicker,
   ImagePicker,
@@ -347,7 +348,7 @@ class PostEditor extends Component {
   };
 
   onFormSubmit = (values, { setSubmitting, setErrors, resetForm }) => {
-    const { submitAction, onClose, post, segmentsInfo } = this.props;
+    const { submitAction, onClose, segmentsInfo } = this.props;
     const { action, event } = this.submitState;
     const { id: actionId } = action;
     this.submitState = null;
@@ -398,20 +399,22 @@ class PostEditor extends Component {
         lockedAt: unlock ? null : lockedAt,
         pollId: pollId || null,
       },
-      post,
+      this.initialValues,
       {
         action,
         unlock: closingAction,
       },
     )
-      .then((/* { data: { result: savedPost } = undefined } = {} */) => {
-        this.initialValues = this.calcInitialValues(post, this.getPostMaxPriority(), segmentsInfo);
+      .then(({ data: { result: savedPost } = undefined } = {}) => {
+        this.initialValues = calcInitialValues(savedPost, this.getPostMaxPriority(), segmentsInfo);
         resetForm({ values: this.initialValues });
         this.setState({ originalContent: content });
 
         return onClose && closingAction && onClose(event);
       })
-      .catch(({ response: { data = null } = {} } = {}) => {
+      .catch((ex) => {
+        logger.error('Unable to save post!', ex);
+        const { response: { data = null } = {} } = ex || {};
         setSubmitting(false);
         setErrors(mapApiErrorsToFormErrors(data));
       });
@@ -1098,7 +1101,7 @@ PostEditor.defaultProps = {
 
 const mapStateToProps = (state) => ({
   preferences: AppSelectors.getPreferences(state),
-  segmentsInfo: AppSelectors.getSegmentsInfo(),
+  segmentsInfo: AppSelectors.getSegmentsInfo(state),
 });
 
 const mapDispatchToProps = (/* dispatch */) => ({});

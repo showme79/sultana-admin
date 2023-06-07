@@ -16,12 +16,6 @@ const initState = {
       approved: 0,
       sync: 0,
     },
-    programs: {
-      new: 0,
-      modified: 0,
-      approved: 0,
-      sync: 0,
-    },
   },
 };
 

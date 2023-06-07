@@ -38,6 +38,7 @@ export default [
     icon: DashboardIcon,
     text: 'Műszerfal',
     path: Route.home, // no params: route is same as path
+    exact: true,
     node: Dashboard,
     isAvailable: (/* { user } */) => true,
   },
@@ -165,7 +166,7 @@ export default [
     id: 'preferences',
     btnCls: 'id-btn-module-preferences',
     icon: SettingsIcon,
-    text: 'Rendszer beállítások',
+    text: 'Konfiguráció',
     route: generatePath(Route.preferences),
     path: Route.preferences,
     exact: true,

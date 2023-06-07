@@ -27,7 +27,7 @@ const ExTableCell = ({
 
 ExTableCell.propTypes = {
   align: PropTypes.oneOf(['center', 'inherit', 'justify', 'left', 'right']),
-  padding: PropTypes.oneOf(['default', 'checkbox', 'none', 'left', 'right']),
+  padding: PropTypes.oneOf(['normal', 'checkbox', 'none', 'left', 'right']),
   column: PropTypes.shape({}).isRequired,
   columns: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   columnId: PropTypes.string.isRequired,
@@ -45,7 +45,7 @@ ExTableCell.propTypes = {
 ExTableCell.defaultProps = {
   item: undefined,
   align: 'left',
-  padding: 'default',
+  padding: 'normal',
   selected: false,
   value: null,
   children: null,

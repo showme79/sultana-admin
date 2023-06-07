@@ -155,13 +155,13 @@ class Posts extends Component {
   savePost = (post, originalPost, { /* action, */ unlock }) => {
     const { savePost } = this.props;
 
-    return savePost(post, unlock).then(() => {
+    return savePost(post, unlock).then((response) => {
       if (
         post.priority === originalPost.priority &&
         post.segment === originalPost.segment &&
         post.status === originalPost.status
       ) {
-        return;
+        return response;
       }
 
       const { sort, range, filter, search, loadPosts } = this.props;
@@ -172,6 +172,8 @@ class Posts extends Component {
         filter,
         search,
       });
+
+      return response;
     });
   };
 

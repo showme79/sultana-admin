@@ -1,4 +1,4 @@
-const drawerWidth = 200;
+const drawerWidth = 240;
 
 export default (theme) => ({
   drawer: {
@@ -19,7 +19,7 @@ export default (theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: 64,
+    width: 56,
   },
 
   toolbar: {
@@ -30,8 +30,13 @@ export default (theme) => ({
     height: 48,
   },
 
-  listItem: {},
-  listItemActive: {
-    color: '#000',
+  listItem: {
+    '&.active': {
+      color: '#000',
+      background: '#eee',
+      '& .MuiListItemIcon-root': {
+        color: '#000',
+      },
+    },
   },
 });

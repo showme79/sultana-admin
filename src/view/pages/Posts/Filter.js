@@ -50,9 +50,9 @@ const Filter = ({ className, filter: filterProps, search, service }) => {
       filterProps || {
         priority: false,
         status: statusItems[0].id,
-        segment: Segment.$ALL,
+        segment: Segment.ALL,
       },
-    [Segment.$ALL, filterProps],
+    [Segment.ALL, filterProps],
   );
 
   const onSubmit = useCallback(

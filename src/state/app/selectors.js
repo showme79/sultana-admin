@@ -1,8 +1,6 @@
 import { filter, get, indexOf, isArray, map, mapKeys, mapValues } from 'lodash-es';
 import { createSelector } from 'reselect';
 
-import { fromJson } from 'utils';
-
 export const isAuthenticated = ({ app: { auth } }) => !auth || !auth.user;
 
 export const getUser = ({ app: { auth } }) => auth?.user || null;
@@ -21,27 +19,26 @@ export const getProgressDialog = ({ app: { progressDialog } }) => progressDialog
 
 export const getPreferences = ({ app: { preferences } }) => preferences;
 
-export const getSegmentsInfo = createSelector([getPreferences], (preferences) => {
-  const segments = fromJson(get(preferences, 'portal.segments', undefined), []);
+export const getSegmentsInfo = createSelector(getPreferences, (preferences) => {
+  const segments = get(preferences, 'portal.segments') || [];
 
   const RealSegment = mapKeys(map(segments, 'id'));
 
   const Segment = {
-    $ALL: '$ALL',
+    ALL: 'ALL',
     ...mapValues(mapKeys(segments, 'id'), 'id'),
   };
 
   const SegmentText = {
-    $ALL: 'Összes szegmens',
+    ALL: 'Összes szegmens',
     ...mapValues(mapKeys(segments, 'id'), 'label'),
   };
 
   const segmentGroupItems = filter(segments, (segment) => segment.id[0] !== '$' && !segment.hidden).map((segment) => ({
     key: segment.id,
     name: `segments[${segment.id}]`,
-    label: SegmentText[segment],
+    label: SegmentText[segment.id],
   }));
-
   const defaultSegment = filter(segments, 'default')[0] || segments[0] || null;
 
   return { segments, segmentGroupItems, RealSegment, Segment, SegmentText, defaultSegment };

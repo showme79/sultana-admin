@@ -28,7 +28,7 @@ const ResetPasswordForm = ({ classes, username, email, onBack, onSubmit }) => {
     onSubmit,
     resolver,
     context: { email },
-    defaultValue: { username },
+    defaultValues: { username: username || '' },
   });
 
   const cls = useStyles({ classes });

@@ -6,7 +6,7 @@ import { find, get, isFunction } from 'lodash-es';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, matchPath, withRouter } from 'react-router-dom';
+import { Redirect, Route, Switch, matchPath, withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Route as RouteConfig } from 'consts';
@@ -113,7 +113,7 @@ class App extends Component {
         {REACT_APP_TITLE} v{REACT_APP_VERSION} <small>{buildDate}</small>
       </>
     );
-    const moduleId = 'dashboard';
+    const moduleId = modules.find((module) => matchPath(location.pathname, module))?.id || modules[0].id;
 
     const matchChangePassword =
       preferences &&
@@ -163,7 +163,7 @@ class App extends Component {
                             />
                           ),
                       )}
-                      {/*                  <Redirect to={modules[0].path} /> */}
+                      <Redirect to={modules[0].path} />
                     </Switch>
                   </div>
                 </div>

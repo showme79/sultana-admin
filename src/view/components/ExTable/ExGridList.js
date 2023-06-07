@@ -1,4 +1,4 @@
-import { GridList, GridListTile, GridListTileBar, Paper, TablePagination, withStyles } from '@material-ui/core';
+import { ImageList, ImageListItem, ImageListItemBar, Paper, TablePagination, withStyles } from '@material-ui/core';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -52,14 +52,14 @@ class ExGridList extends Component {
           onActionClick={onActionClick}
         />
         <div className={classes.tableWrapper}>
-          <GridList cellHeight={180} className={classes.grid} cols={5} spacing={16}>
+          <ImageList rowHeight={180} className={classes.grid} cols={5} gap={16}>
             {items.map((item) => (
-              <GridListTile
+              <ImageListItem
                 key={item.id}
                 className={classes.gridTile}
                 style={{ backgroundImage: `url(${getMediaUrl(item, ImageWidth.THUMBNAIL)})` }}
               >
-                <GridListTileBar
+                <ImageListItemBar
                   title={item.title}
                   actionIcon={
                     <ExActions
@@ -70,9 +70,9 @@ class ExGridList extends Component {
                     />
                   }
                 />
-              </GridListTile>
+              </ImageListItem>
             ))}
-          </GridList>
+          </ImageList>
         </div>
         <TablePagination
           rowsPerPageOptions={rowsPerPageOptionsThumbs}

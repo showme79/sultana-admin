@@ -13,7 +13,7 @@ const ExTableCellAction = ({ actions, item, onActionClick, ...props }) => (
 
 ExTableCellAction.propTypes = {
   align: PropTypes.oneOf(['center', 'inherit', 'justify', 'left', 'right']),
-  padding: PropTypes.oneOf(['default', 'checkbox', 'none', 'left', 'right']),
+  padding: PropTypes.oneOf(['normal', 'checkbox', 'none', 'left', 'right']),
   actions: ActionsPropType,
   onActionClick: PropTypes.func.isRequired,
   item: PropTypes.shape({}).isRequired,
@@ -21,7 +21,7 @@ ExTableCellAction.propTypes = {
 
 ExTableCellAction.defaultProps = {
   align: 'left',
-  padding: 'default',
+  padding: 'normal',
   actions: undefined,
 };
 
